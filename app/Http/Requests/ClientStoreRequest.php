@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ClientStoreRequest extends FormRequest
 {
@@ -25,6 +26,14 @@ class ClientStoreRequest extends FormRequest
             'email' => ['required', 'email', 'max:255', 'unique:clients,email'],
             'phone_number' => ['nullable', 'string', 'max:255'],
             'date_of_birth' => ['nullable', 'date', 'before:today'],
+
+            // product_ids = null - prazan niz
+            'product_ids' => ['nullable', 'array'],
+
+            // [3, 2, 1] - jeste validan
+            'product_ids.*' => ['required', 'integer',
+                Rule::exists('products', 'id')],
+            // za svaki element niza
         ];
     }
 }
