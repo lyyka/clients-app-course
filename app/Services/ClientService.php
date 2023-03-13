@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Http\Requests\ClientStoreRequest;
+use App\Mail\NewUserAccountMail;
 use App\Models\Client;
 use App\Models\ClientProduct;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ClientService {
     public function storeClient(ClientStoreRequest $request, Client $client) {
@@ -32,5 +34,8 @@ class ClientService {
                 );
             }
         });
+
+        $mail = new NewUserAccountMail($client->first_name); // napravili mejl
+        Mail::to($client->email)->send($mail); // poslali napravljen mejl
     }
 }
