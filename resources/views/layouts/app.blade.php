@@ -20,7 +20,15 @@
 
                         <div>
                             @auth
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="POST"
+                                      @auth('admin')
+                                          action="{{ route('admin.logout') }}"
+                                      @endauth
+
+                                      @auth('web')
+                                          action="{{ route('user.logout') }}"
+                                    @endauth
+                                >
                                     @csrf
                                     <button
                                         type="submit"
