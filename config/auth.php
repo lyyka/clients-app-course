@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'web', // admin, seller, ....
         'passwords' => 'users',
     ],
 
@@ -35,10 +35,17 @@ return [
     |
     */
 
+    // guard -> provider -> model
+
     'guards' => [
         'web' => [
-            'driver' => 'session',
+            'driver' => 'session', // laravel cuvati podatke o loginu u sesiji
             'provider' => 'users',
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
         ],
     ],
 
@@ -59,16 +66,18 @@ return [
     |
     */
 
+    // guard -> provider -> model
+    // (web) -> (users) -> (App\Models\User::class)
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\Admin::class,
+        ],
     ],
 
     /*
